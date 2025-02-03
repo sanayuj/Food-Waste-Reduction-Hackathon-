@@ -1,0 +1,20 @@
+import { adminInstance } from "../Axios/axiosInstance";
+
+
+
+export const adminLogin = (values) => {
+  console.log("AdminLogin",values);
+  
+    return adminInstance.post("/login", { ...values });
+  };
+  export const adminHeader = () => {
+    return adminInstance.get("/adminHeader");
+  };
+  
+  export const userList = () => {
+    return adminInstance.get("/userList");
+  };
+
+  export const listDonation=()=>{
+    return adminInstance.get("/DonationList");
+  }
