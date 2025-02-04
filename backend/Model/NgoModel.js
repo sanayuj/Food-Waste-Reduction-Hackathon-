@@ -1,6 +1,4 @@
-;
-const { type } = require("os");
-
+const mongoose  = require("mongoose");
 
 const AddNgo=new mongoose.Schema({
 Name:{
@@ -19,12 +17,12 @@ BlockStatus:{
     type:Boolean,
     default:false
 },
-Date:{
+DateOfCreation:{
+    type:Date,
     default: Date.now
-
 }
 }
 )
 
 
-module.exports=new mongoose.module("NgoList",AddNgo);
+module.exports=new mongoose.model("NgoList",AddNgo);

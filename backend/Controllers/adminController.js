@@ -96,9 +96,19 @@ const createAdminToken = (id) => {
   module.exports.EnterNewNgo=async(req,res,next)=>{
     try{
 console.log("hehheheheh",req.body);
-      const newNgo=await NgoModel.findOne({req.body.constact})
-
+      const newNgo=await NgoModel.findOne({PhoneNumber:req.body.contact})
+if(newNgo){
+ return res.json({message:"NGO already registered !",status:false})
+}
+const newRegister=new NgoModel({
+  Name:req.body.name,
+  Location:req.body.location,
+  PhoneNumber:req.body.contact
+})
+await newRegister.save();
+return res.json({message:"New NGO Registered",status:true})
+return 
     }catch(error){
-      
+      return res.json({message:"Error occur while submiting",status:false})
     }
   }

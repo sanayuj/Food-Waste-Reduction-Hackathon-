@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { enterNewNGO, listDonation, userList } from "../../../Services /adminApi";
 import { Link } from "react-router-dom";
+import { Formik, Form, Field, ErrorMessage } from "formik"; // Import Formik components
+import * as Yup from "yup";
+import { toast } from "react-toastify";
 
 const AdminDashboard = () => {
   const [user, setUser] = useState([]);
@@ -20,18 +23,42 @@ const AdminDashboard = () => {
       .catch((err) => console.log(err));
   }, []);
 
+  const ngoValidationSchema = Yup.object().shape({
+    name: Yup.string().required("NGO Name is required"),
+    location: Yup.string().required("Location is required"),
+    contact: Yup.string()
+      .required("Contact is required")
+      .matches(/^[0-9]{10}$/, "Contact must be a valid 10-digit number"),
+  }
+  )
+  const handleSubmit = (values, { resetForm }) => {
+    console.log("NGO Data Submitted:", values);
+    enterNewNGO(values)
+      .then((data) => {
+        console.log(data, "$$$%%%%$$$$$");
+        resetForm(); // Reset the form after submission
+        if(data.data.status){
+        return  toast.success(data.data.message)
+        }
+        toast.error(data.data.message)
+        setShowModal(false); // Close the modal
+      })
+      .catch((err) => toast.error("Unable to submit"));
+  }
+
   const handleChange = (e) => {
     setNgoData({ ...ngoData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = () => {
-    console.log("NGO Data Submitted:", ngoData);
-    enterNewNGO(ngoData).then((data)=>{
-      console.log(data,"$$$%%%%$$$$$");
+
+  // const handleSubmit = () => {
+  //   console.log("NGO Data Submitted:", ngoData);
+  //   enterNewNGO(ngoData).then((data)=>{
+  //     console.log(data,"$$$%%%%$$$$$");
       
-    })
-    setShowModal(false);
-  };
+  //   })
+  //   setShowModal(false);
+  // };
 
   return (
     <div className="container-fluid">
@@ -139,31 +166,78 @@ const AdminDashboard = () => {
                 <div className="modal-content">
                   <div className="modal-header">
                     <h5 className="modal-title">Add New NGO</h5>
-                    <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
+                    <button
+                      type="button"
+                      className="btn-close"
+                      onClick={() => setShowModal(false)}
+                    ></button>
                   </div>
                   <div className="modal-body">
-                    <form>
-                      <div className="mb-3">
-                        <label className="col-form-label">NGO Name:</label>
-                        <input type="text" name="name" className="form-control" value={ngoData.name} onChange={handleChange} />
-                      </div>
-                      <div className="mb-3">
-                        <label className="col-form-label">Location:</label>
-                        <input type="text" name="location" className="form-control" value={ngoData.location} onChange={handleChange} />
-                      </div>
-                      <div className="mb-3">
-                        <label className="col-form-label">Contact No:</label>
-                        <input type="text" name="contact" className="form-control" value={ngoData.contact} onChange={handleChange} />
-                      </div>
-                    </form>
-                  </div>
-                  <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>
-                      Close
-                    </button>
-                    <button type="button" className="btn btn-primary" onClick={handleSubmit}>
-                      Submit
-                    </button>
+                    <Formik
+                      initialValues={{ name: "", location: "", contact: "" }}
+                      validationSchema={ngoValidationSchema}
+                      onSubmit={handleSubmit}
+                    >
+                      {({ isSubmitting }) => (
+                        <Form>
+                          <div className="mb-3">
+                            <label className="col-form-label">NGO Name:</label>
+                            <Field
+                              type="text"
+                              name="name"
+                              className="form-control"
+                            />
+                            <ErrorMessage
+                              name="name"
+                              component="div"
+                              className="text-danger"
+                            />
+                          </div>
+                          <div className="mb-3">
+                            <label className="col-form-label">Location:</label>
+                            <Field
+                              type="text"
+                              name="location"
+                              className="form-control"
+                            />
+                            <ErrorMessage
+                              name="location"
+                              component="div"
+                              className="text-danger"
+                            />
+                          </div>
+                          <div className="mb-3">
+                            <label className="col-form-label">Contact No:</label>
+                            <Field
+                              type="text"
+                              name="contact"
+                              className="form-control"
+                            />
+                            <ErrorMessage
+                              name="contact"
+                              component="div"
+                              className="text-danger"
+                            />
+                          </div>
+                          <div className="modal-footer">
+                            <button
+                              type="button"
+                              className="btn btn-secondary"
+                              onClick={() => setShowModal(false)}
+                            >
+                              Close
+                            </button>
+                            <button
+                              type="submit"
+                              className="btn btn-primary"
+                              disabled={isSubmitting}
+                            >
+                              Submit
+                            </button>
+                          </div>
+                        </Form>
+                      )}
+                    </Formik>
                   </div>
                 </div>
               </div>
