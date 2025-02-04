@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { listDonation, userList } from "../../../Services /adminApi";
+import { enterNewNGO, listDonation, userList } from "../../../Services /adminApi";
 import { Link } from "react-router-dom";
 
 const AdminDashboard = () => {
@@ -26,6 +26,10 @@ const AdminDashboard = () => {
 
   const handleSubmit = () => {
     console.log("NGO Data Submitted:", ngoData);
+    enterNewNGO(ngoData).then((data)=>{
+      console.log(data,"$$$%%%%$$$$$");
+      
+    })
     setShowModal(false);
   };
 

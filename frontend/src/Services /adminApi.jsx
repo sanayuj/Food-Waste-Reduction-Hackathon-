@@ -18,3 +18,7 @@ export const adminLogin = (values) => {
   export const listDonation=()=>{
     return adminInstance.get("/DonationList");
   }
+
+  export const enterNewNGO=(values)=>{
+    return adminInstance.post("/newNgo",values)
+  }

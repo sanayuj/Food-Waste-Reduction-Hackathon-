@@ -5,6 +5,8 @@ const adminModel = require("../Model/adminModel");
 const userModel = require("../Model/userModel");
 const path = require("path");
 const DonationModel = require("../Model/DonationModel");
+const NgoModel = require("../Model/NgoModel");
+
 
 
 
@@ -21,8 +23,12 @@ const createAdminToken = (id) => {
         
       const admin = await adminModel.findOne({ email });
       if (admin) {
+        console.log("admin found!");
+        
         const adminAuth = await bcrypt.compare(password, admin.password);
         if (adminAuth) {
+          console.log("Inside the auth");
+          
           const adminToken = createAdminToken(admin._id);
           return res.json({
             message: "login successfully",
@@ -85,3 +91,14 @@ const createAdminToken = (id) => {
       res.json({ message: "Internal server error in list Donation Details", status: false });
     }
   };
+
+
+  module.exports.EnterNewNgo=async(req,res,next)=>{
+    try{
+console.log("hehheheheh",req.body);
+      const newNgo=await NgoModel.findOne({req.body.constact})
+
+    }catch(error){
+      
+    }
+  }

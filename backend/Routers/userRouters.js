@@ -15,10 +15,10 @@ const { userHeader } = require("../Controllers/userController");
 
   router.post("/login", login);
   router.post("/Signup",Signup);
-  router.post("/userFoodDonate",userAuth,userFoodDonation)
+  router.post("/userFoodDonate",userFoodDonation)
 
 
 
   router.get("/userHeader",userAuth,userHeader);
-  router.get("/UserDonationInfo",userAuth,getInfoDonation)
+  router.get("/UserDonationInfo",getInfoDonation)
 module.exports = router;

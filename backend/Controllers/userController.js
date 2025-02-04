@@ -20,12 +20,12 @@ module.exports.login = async (req, res, next) => {
         console.log(req.body.phoneNumber,"login data!!!!!")
       const user = await userModel.findOne({ phoneNumber });
   
-      if (user.BlockStatus) {
-        return res.json({
-          message: "Admin temporay blocked you!",
-          success: false,
-        });
-      }
+      // if (user.BlockStatus) {
+      //   return res.json({
+      //     message: "Admin temporay blocked you!",
+      //     success: false,
+      //   });
+      // }
   
       if (user) {
         const matchPassword = await bcrypt.compare(password, user.password);

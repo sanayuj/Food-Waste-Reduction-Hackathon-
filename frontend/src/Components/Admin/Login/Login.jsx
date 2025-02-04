@@ -13,10 +13,7 @@ function Login() {
   const navigate = useNavigate();
   const onSubmit = async (values) => {
     try {
-      adminLogin(values)
-    
-      
-        .then((res) => {
+      adminLogin(values).then((res) => {
             console.log(res,"###@@@@@###");
           if (res.data.status) {
             dispatch(setAdminDetails(res.data.adminDetails));

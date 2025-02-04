@@ -17,7 +17,7 @@ const [data,addData]=useState()
     }).catch((err)=>{
       console.log(err);
     })
-  },[data?.donationInfo])
+  },[])
   // State to control modal visibility
   const [showModal, setShowModal] = useState(false);
 
