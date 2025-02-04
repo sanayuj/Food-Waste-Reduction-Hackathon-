@@ -112,3 +112,18 @@ return
       return res.json({message:"Error occur while submiting",status:false})
     }
   }
+
+  module.exports.listNGO=async(req,res)=>{
+    try{
+    const NGODetais=await NgoModel.find({})
+    if(NGODetais){
+      console.log(NGODetais,"NNNNGGGGOOO");
+      
+     return res.json({message:"Data fetch successfully",data:NGODetais,status:true})
+    }
+    return res.json({message:"Empty ",status:false})
+  }catch(err){
+    console.log(err);
+    
+ return res.json({message:"Error occur while fetching",status:false})
+  }}

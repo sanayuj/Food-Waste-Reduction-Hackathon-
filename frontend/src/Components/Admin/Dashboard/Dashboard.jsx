@@ -1,27 +1,41 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { enterNewNGO, listDonation, userList } from "../../../Services /adminApi";
+import { enterNewNGO, listDonation, userList,listNgo } from "../../../Services /adminApi";
 import { Link } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik"; // Import Formik components
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 
+
 const AdminDashboard = () => {
   const [user, setUser] = useState([]);
+  const [ngo,setNgo]=useState([])
   const [donation, setDonation] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [ngoData, setNgoData] = useState({ name: "", location: "", contact: "" });
 
   useEffect(() => {
+    listNgo().then((data)=>{
+      console.log(data,"^^^^^^^^");
+      setNgo(data?.data.data)
+    })
+
+
+
     userList()
       .then((res) => {
         setUser(res?.data?.userDetails || []);
         listDonation().then((res) => {
           setDonation(res?.data?.DonationDetails || []);
         });
+
       })
       .catch((err) => console.log(err));
-  }, []);
+  }
+  
+
+  
+  , []);
 
   const ngoValidationSchema = Yup.object().shape({
     name: Yup.string().required("NGO Name is required"),
@@ -64,7 +78,7 @@ const AdminDashboard = () => {
     <div className="container-fluid">
       <div className="row">
         {/* Sidebar */}
-        <div className="col-md-2 sidebar bg-primary text-white p-3">
+        <div className="col-md-2 row-md-12 sidebar bg-primary text-white p-3">
           <h2 className="mb-4">Admin Panel</h2>
           <ul className="list-unstyled">
             <li>
@@ -99,6 +113,30 @@ const AdminDashboard = () => {
           </div>
 
           {/* User Management Table */}
+          <h2 className="mb-3">NGO Management</h2>
+          <table className="table table-bordered">
+            <thead>
+              <tr>
+                <th>User ID</th>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {ngo.map((user, index) => (
+                <tr key={user._id}>
+                  <td>{index + 1}</td>
+                  <td>{user?.Name}</td>
+                  <td>NGO</td>
+                  <td>
+                    <button className="btn btn-success btn-sm me-2">Approve</button>
+                    <button className="btn btn-danger btn-sm">Remove</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
           <h2 className="mb-3">User Management</h2>
           <table className="table table-bordered">
             <thead>
