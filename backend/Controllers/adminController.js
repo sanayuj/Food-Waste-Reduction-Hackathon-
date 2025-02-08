@@ -127,3 +127,21 @@ return
     
  return res.json({message:"Error occur while fetching",status:false})
   }}
+
+  module.exports.ApproveNGO = async (req, res) => {
+    try {
+        const { NGO_id } = req.body;
+        const ngo = await NgoModel.findById(NGO_id);
+        
+        if (!ngo) {
+            return res.status(404).json({ message: "NGO not found", status: false });
+        }
+        ngo.BlockStatus = true;
+        await ngo.save();
+        
+        return res.json({ message: "NGO approved successfully", status: true });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Error in approving NGO", status: false });
+    }
+};

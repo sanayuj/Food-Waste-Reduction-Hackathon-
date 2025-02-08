@@ -25,6 +25,8 @@ const AdminDashboard = () => {
     userList()
       .then((res) => {
         setUser(res?.data?.userDetails || []);
+        console.log(res?.data?.userDetails[0].BlockStatus,"!!!!!!!!!!");
+        
         listDonation().then((res) => {
           setDonation(res?.data?.DonationDetails || []);
         });
@@ -120,7 +122,9 @@ const AdminDashboard = () => {
                 <th>User ID</th>
                 <th>Name</th>
                 <th>Role</th>
+                <th>Status</th>
                 <th>Actions</th>
+               
               </tr>
             </thead>
             <tbody>
@@ -129,6 +133,7 @@ const AdminDashboard = () => {
                   <td>{index + 1}</td>
                   <td>{user?.Name}</td>
                   <td>NGO</td>
+                  <td>{ngo.BlockStatus ? "Approved" : "Blocked"}</td>
                   <td>
                     <button className="btn btn-success btn-sm me-2">Approve</button>
                     <button className="btn btn-danger btn-sm">Remove</button>
@@ -144,6 +149,7 @@ const AdminDashboard = () => {
                 <th>User ID</th>
                 <th>Name</th>
                 <th>Role</th>
+                <th>Status</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -153,6 +159,7 @@ const AdminDashboard = () => {
                   <td>{index + 1}</td>
                   <td>{user?.username}</td>
                   <td>User</td>
+                  <td>{ngo.BlockStatus ? "Approved" : "Blocked"}</td>
                   <td>
                     <button className="btn btn-success btn-sm me-2">Approve</button>
                     <button className="btn btn-danger btn-sm">Remove</button>

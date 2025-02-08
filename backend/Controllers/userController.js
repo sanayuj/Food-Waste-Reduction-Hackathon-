@@ -128,7 +128,7 @@ module.exports.login = async (req, res, next) => {
   }
 
   module.exports.getInfoDonation = async (req, res, next) => {
-    const userId = req.user._id;
+    const userId = req?.user?._id;
     try {
         // Use findOne if there's only one donation per user, otherwise use find
         const donationInfo = await DonationModel.find({ userId });
