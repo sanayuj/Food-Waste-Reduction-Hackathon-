@@ -26,3 +26,7 @@ export const adminLogin = (values) => {
   export const listNgo=()=>{
     return adminInstance.get("/getNGODetails")
   }
+
+  export const allowNgo=(ngoId)=>{
+    return adminInstance.post("/AllowNgo",ngoId)
+  }
