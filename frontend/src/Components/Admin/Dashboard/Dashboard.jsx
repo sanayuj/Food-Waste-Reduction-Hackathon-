@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { enterNewNGO, listDonation, userList, listNgo, allowNgo } from "../../../Services /adminApi";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 
 const AdminDashboard = () => {
   const [user, setUser] = useState([]);
